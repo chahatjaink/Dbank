@@ -1,5 +1,7 @@
-actor {
-  public query func greet(name : Text) : async Text {
-    return "Hello, " # name # "!";
-  };
+import Debug "mo:base/Debug";
+
+
+actor DBank {
+  let id = 2;
+  Debug.print(debug_show (id));
 };
