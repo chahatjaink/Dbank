@@ -28,6 +28,7 @@ actor _DBank {
   };
 
   public query func getCurrentValue() : async Float {
+    Debug.print(debug_show (currentValue));
     currentValue;
   };
 
@@ -36,6 +37,7 @@ actor _DBank {
     let elapsedTime : Float = Float.fromInt(timeDiff / 1000000000);
     let interestRate : Float = 0.01;
     currentValue := currentValue * (1 + interestRate) ** elapsedTime;
+    Debug.print(debug_show (currentValue));
     initalTime := Time.now();
   };
 
