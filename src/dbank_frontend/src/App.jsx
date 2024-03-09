@@ -5,26 +5,35 @@ function App() {
   const [inputAmount, setInputAmount] = useState(0);
   const [withdrawAmount, setWithdrawAmount] = useState(0);
   const [currentAmount, setCurrentAmount] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setCurrentValue();
   }, []);
 
   async function setCurrentValue() {
+    setLoading(true);
     const value = await dbank_backend.getCurrentValue();
     const updatedValue = Math.round(value * 100) / 100;
     setCurrentAmount(updatedValue);
+    setLoading(false);
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
     if (inputAmount !== 0 || withdrawAmount !== 0) {
+      setLoading(true);
+
+      // Assuming dbank_backend.topUp, dbank_backend.withdraw, and dbank_backend.compound return Promises
       await dbank_backend.topUp(inputAmount);
       await dbank_backend.withdraw(withdrawAmount);
       await dbank_backend.compound();
+
       setCurrentValue();
       setInputAmount(0);
       setWithdrawAmount(0);
+
+      setLoading(false);
     }
   }
 
@@ -56,10 +65,13 @@ function App() {
           value={withdrawAmount}
           onChange={(e) => setWithdrawAmount(parseFloat(e.target.value))}
         />
-        <input id="submit-btn" type="submit" value="Finalise Transaction" />
+        <button id="submit-btn" type="submit">
+          Finalise Transaction
+        </button>
+
+        {loading && <div className="loader"></div>}
       </form>
     </div>
   );
 }
-
 export default App;
