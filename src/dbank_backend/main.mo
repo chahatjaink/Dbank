@@ -18,6 +18,7 @@ actor _DBank {
     let tempValue : Float = currentValue - amount;
     if (tempValue <= 0) {
       Debug.print("Insufficient funds");
+      currentValue := 0;
       topUp(100);
       Debug.print(debug_show (currentValue));
       return;
